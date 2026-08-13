@@ -12,8 +12,11 @@ Como rodar:
     python3 youtube_transcript_app.py
 """
 
+import json
 import re
 import threading
+import urllib.parse
+import urllib.request
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 
@@ -42,6 +45,20 @@ def extrair_video_id(url_ou_id: str) -> str:
         return url_ou_id
 
     raise ValueError("Não consegui identificar o ID do vídeo nesse link.")
+
+
+def buscar_titulo_video(video_id: str) -> str:
+    """Busca o título do vídeo via endpoint público oEmbed do YouTube (sem chave de API)."""
+    url_video = f"https://www.youtube.com/watch?v={video_id}"
+    oembed_url = "https://www.youtube.com/oembed?" + urllib.parse.urlencode(
+        {"url": url_video, "format": "json"}
+    )
+    try:
+        with urllib.request.urlopen(oembed_url, timeout=8) as resp:
+            dados = json.loads(resp.read().decode("utf-8"))
+            return dados.get("title", "").strip()
+    except Exception:
+        return ""  # se não conseguir, segue sem título
 
 
 class App(tk.Tk):
@@ -154,7 +171,16 @@ class App(tk.Tk):
                 else:
                     linhas.append(trecho.text)
 
-            texto_final = "\n".join(linhas)
+            titulo = buscar_titulo_video(video_id)
+            link_video = f"https://www.youtube.com/watch?v={video_id}"
+
+            cabecalho = []
+            if titulo:
+                cabecalho.append(f"Título: {titulo}")
+            cabecalho.append(f"Link: {link_video}")
+            cabecalho.append("-" * 40)
+
+            texto_final = "\n".join(cabecalho) + "\n\n" + "\n".join(linhas)
             self.after(0, self._exibir_resultado, texto_final)
 
         except TranscriptsDisabled:
