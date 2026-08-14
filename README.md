@@ -1,7 +1,7 @@
 # YouTube Transcript Extractor
 
-App local e 100% gratuito para extrair a transcrição/legenda de vídeos do YouTube.
-Sem servidor, sem nuvem, sem chave de API, sem custo — roda inteiramente no seu computador.
+Extrai a transcrição/legenda de vídeos do YouTube. Sem chave de API, sem custo.
+Disponível em três versões: desktop (Tkinter), web local (Flask) e web na nuvem (Streamlit).
 
 ## ✨ Recursos
 
@@ -9,23 +9,48 @@ Sem servidor, sem nuvem, sem chave de API, sem custo — roda inteiramente no se
 - Escolha do idioma da legenda (ou `auto` para pegar a primeira disponível)
 - Marcação de tempo opcional (`[mm:ss]`)
 - Copiar tudo ou salvar como `.txt`
-- Interface gráfica simples (Tkinter — já vem com o Python)
+- Busca automática do título do vídeo
 
-## 🚀 Como usar (Windows)
-
-1. Instale o [Python](https://www.python.org/downloads/) (marque **"Add Python to PATH"** na instalação)
-2. Dê duplo clique em **`iniciar_app.bat`**
-   - Ele instala a dependência automaticamente na primeira vez e já abre o app
-
-## 🚀 Como usar (Mac/Linux)
+## 🖥️ Versão desktop (Tkinter)
 
 ```bash
 pip install youtube-transcript-api
-python3 youtube_transcript_app.py
+python youtube_transcript_app.py
 ```
+
+No Windows, dê duplo clique em **`iniciar_app.bat`** (instala a dependência automaticamente).
+
+## 🌐 Versão web local (Flask)
+
+```bash
+pip install -r requirements.txt
+python app_web.py
+```
+
+Acesse `http://localhost:5000`. No Windows, dê duplo clique em **`iniciar_app_web.bat`**.
+
+## ☁️ Versão Streamlit (deploy na nuvem)
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+Pronta para publicar no [Streamlit Community Cloud](https://streamlit.io/cloud):
+1. Conecte este repositório em share.streamlit.io
+2. Defina `streamlit_app.py` como arquivo principal
+3. Deploy
+
+## 🧩 Estrutura
+
+- `transcript_core.py` — lógica de extração compartilhada por todas as versões
+- `youtube_transcript_app.py` — versão desktop (Tkinter)
+- `app_web.py` + `templates/` + `static/` — versão web local (Flask)
+- `streamlit_app.py` — versão web na nuvem (Streamlit)
 
 ## ⚠️ Observações
 
 - Só funciona em vídeos que tenham legenda (manual ou automática) habilitada.
 - Não baixa áudio nem vídeo — apenas o texto da legenda já existente.
-- Consulte [`LEIA-ME.md`](LEIA-ME.md) para o passo a passo detalhado.
+- O YouTube pode bloquear temporariamente requisições em excesso vindas do mesmo IP (mais comum em servidores na nuvem).
+- Consulte [`LEIA-ME.md`](LEIA-ME.md) para o passo a passo detalhado da versão desktop.
