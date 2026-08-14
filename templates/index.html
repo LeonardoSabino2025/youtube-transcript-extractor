@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extrator de Transcrição do YouTube</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Extrator de Transcrição do YouTube</h1>
+
+    <div class="linha-topo">
+      <input type="text" id="urlInput" placeholder="Cole o link do vídeo (youtube.com, youtu.be ou /shorts/)" autofocus>
+
+      <select id="idiomaSelect">
+        <option value="pt">pt</option>
+        <option value="en">en</option>
+        <option value="es">es</option>
+        <option value="fr">fr</option>
+        <option value="de">de</option>
+        <option value="it">it</option>
+        <option value="ja">ja</option>
+        <option value="ko">ko</option>
+        <option value="auto">auto</option>
+      </select>
+
+      <button id="btnBuscar">Buscar</button>
+    </div>
+
+    <div class="linha-opcoes">
+      <label>
+        <input type="checkbox" id="incluirTempo" checked>
+        Incluir marcação de tempo
+      </label>
+
+      <div class="botoes-direita">
+        <button id="btnCopiar">Copiar tudo</button>
+        <button id="btnSalvar">Salvar como .txt</button>
+      </div>
+    </div>
+
+    <textarea id="resultado" placeholder="A transcrição vai aparecer aqui..." spellcheck="false"></textarea>
+
+    <div id="status" class="status">Pronto.</div>
+  </div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

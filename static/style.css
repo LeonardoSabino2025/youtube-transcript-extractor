@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  background: #1e1f24;
+  color: #eaeaea;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+  color: #fff;
+}
+
+.linha-topo {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#urlInput {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #3a3b42;
+  background: #2a2b32;
+  color: #eaeaea;
+  font-size: 0.95rem;
+}
+
+#urlInput:focus {
+  outline: 2px solid #c00;
+}
+
+select, button {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #3a3b42;
+  background: #2a2b32;
+  color: #eaeaea;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+button {
+  background: #c00;
+  border-color: #c00;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+button:hover {
+  background: #e00;
+}
+
+button:disabled {
+  background: #555;
+  border-color: #555;
+  cursor: not-allowed;
+}
+
+.linha-opcoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.linha-opcoes label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.botoes-direita {
+  display: flex;
+  gap: 8px;
+}
+
+.botoes-direita button {
+  background: #33343c;
+  border-color: #44454e;
+}
+
+.botoes-direita button:hover {
+  background: #44454e;
+}
+
+#resultado {
+  width: 100%;
+  min-height: 400px;
+  resize: vertical;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #3a3b42;
+  background: #17181c;
+  color: #eaeaea;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #999;
+}
