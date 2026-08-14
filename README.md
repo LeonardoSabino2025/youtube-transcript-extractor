@@ -1,5 +1,7 @@
 # YouTube Transcript Extractor
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://extrator-transcricao-youtube.streamlit.app)
+
 Extrai a transcrição/legenda de vídeos do YouTube. Sem chave de API, sem custo.
 Disponível em três versões: desktop (Tkinter), web local (Flask) e web na nuvem (Streamlit).
 
