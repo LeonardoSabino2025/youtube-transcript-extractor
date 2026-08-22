@@ -43,6 +43,36 @@ Pronta para publicar no [Streamlit Community Cloud](https://streamlit.io/cloud):
 2. Defina `streamlit_app.py` como arquivo principal
 3. Deploy
 
+## 🚫 Bloqueio de IP pelo YouTube (nuvem)
+
+O YouTube bloqueia com frequência os IPs compartilhados de provedores de nuvem
+(Streamlit Community Cloud incluso). Quando isso acontece, o app mostra um erro
+avisando que é bloqueio temporário — não é um problema com o vídeo em si nem
+com o código. A própria biblioteca `youtube-transcript-api` recomenda usar um
+proxy residencial rotativo para contornar isso.
+
+Se o bloqueio for frequente, configure um proxy definindo variáveis de
+ambiente (ou Secrets, no Streamlit Cloud):
+
+**Opção 1 — Webshare (recomendado pela biblioteca):**
+```
+WEBSHARE_PROXY_USERNAME=<seu usuário>
+WEBSHARE_PROXY_PASSWORD=<sua senha>
+```
+Crie uma conta em [webshare.io](https://www.webshare.io/) (plano "Residential"
+ou "Static Residential"), pegue as credenciais do proxy e cole-as em
+**App settings → Secrets** no Streamlit Cloud (formato `CHAVE = "valor"`, uma
+por linha) — nunca no código ou no repositório.
+
+**Opção 2 — outro provedor de proxy:**
+```
+GENERIC_PROXY_HTTP_URL=http://usuario:senha@host:porta
+GENERIC_PROXY_HTTPS_URL=https://usuario:senha@host:porta
+```
+
+Sem nenhuma dessas variáveis definidas, o app funciona normalmente sem proxy
+(como hoje) — elas são totalmente opcionais.
+
 ## 🧩 Estrutura
 
 - `transcript_core.py` — lógica de extração compartilhada por todas as versões

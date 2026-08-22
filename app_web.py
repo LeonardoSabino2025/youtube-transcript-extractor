@@ -18,6 +18,7 @@ from flask import Flask, jsonify, render_template, request
 
 from transcript_core import (
     NoTranscriptFound,
+    RequestBlocked,
     TranscriptsDisabled,
     VideoUnavailable,
     buscar_transcricao,
@@ -52,6 +53,14 @@ def api_transcricao():
         return jsonify({"erro": "Vídeo indisponível (removido, privado ou ID incorreto)."}), 422
     except NoTranscriptFound:
         return jsonify({"erro": "Não encontrei transcrição nesse idioma para esse vídeo."}), 422
+    except RequestBlocked:
+        return jsonify({
+            "erro": (
+                "O YouTube bloqueou temporariamente as requisições vindas deste "
+                "servidor (bloqueio de IP de nuvem). Tente novamente em alguns "
+                "minutos ou configure um proxy — veja o README do projeto."
+            )
+        }), 503
     except Exception as e:
         return jsonify({"erro": f"Erro inesperado: {e}"}), 500
 

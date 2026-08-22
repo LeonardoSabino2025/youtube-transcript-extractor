@@ -5,16 +5,20 @@ Usada tanto pela versão Flask (app_web.py) quanto pela versão Streamlit
 """
 
 import json
+import os
 import re
 import urllib.parse
 import urllib.request
 
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import (
+    IpBlocked,
     NoTranscriptFound,
+    RequestBlocked,
     TranscriptsDisabled,
     VideoUnavailable,
 )
+from youtube_transcript_api.proxies import GenericProxyConfig, WebshareProxyConfig
 
 __all__ = [
     "extrair_video_id",
@@ -23,7 +27,30 @@ __all__ = [
     "TranscriptsDisabled",
     "VideoUnavailable",
     "NoTranscriptFound",
+    "RequestBlocked",
+    "IpBlocked",
 ]
+
+
+def _proxy_config():
+    """Monta a config de proxy a partir de variáveis de ambiente, se presentes.
+
+    YouTube bloqueia com frequência os IPs compartilhados de provedores de
+    nuvem (Streamlit Cloud incluso). Um proxy residencial rotativo contorna
+    isso. Sem nenhuma variável configurada, roda sem proxy (comportamento
+    padrão local).
+    """
+    webshare_user = os.environ.get("WEBSHARE_PROXY_USERNAME")
+    webshare_pass = os.environ.get("WEBSHARE_PROXY_PASSWORD")
+    if webshare_user and webshare_pass:
+        return WebshareProxyConfig(proxy_username=webshare_user, proxy_password=webshare_pass)
+
+    http_url = os.environ.get("GENERIC_PROXY_HTTP_URL")
+    https_url = os.environ.get("GENERIC_PROXY_HTTPS_URL")
+    if http_url or https_url:
+        return GenericProxyConfig(http_url=http_url, https_url=https_url)
+
+    return None
 
 
 def extrair_video_id(url_ou_id: str) -> str:
@@ -66,7 +93,7 @@ def buscar_transcricao(url: str, idioma: str = "pt", incluir_tempo: bool = True)
     """
     video_id = extrair_video_id(url)
 
-    api = YouTubeTranscriptApi()
+    api = YouTubeTranscriptApi(proxy_config=_proxy_config())
 
     if idioma == "auto":
         transcript_list = api.list(video_id)

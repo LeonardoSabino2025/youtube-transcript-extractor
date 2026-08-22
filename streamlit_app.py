@@ -10,6 +10,7 @@ import streamlit as st
 
 from transcript_core import (
     NoTranscriptFound,
+    RequestBlocked,
     TranscriptsDisabled,
     VideoUnavailable,
     buscar_transcricao,
@@ -56,6 +57,13 @@ if enviado:
                 st.error("Vídeo indisponível (removido, privado ou ID incorreto).")
             except NoTranscriptFound:
                 st.error("Não encontrei transcrição nesse idioma para esse vídeo.")
+            except RequestBlocked:
+                st.error(
+                    "O YouTube bloqueou temporariamente as requisições vindas do "
+                    "servidor deste app (bloqueio de IP de nuvem, não é um erro do "
+                    "vídeo). Tente novamente em alguns minutos. Se persistir, é "
+                    "necessário configurar um proxy — veja o README do projeto."
+                )
             except Exception as e:
                 st.error(f"Erro inesperado: {e}")
 
